@@ -13,6 +13,7 @@ var app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 app.use(express.static('public'));
+app.use(express.static('dist'));
 
 // 加载云代码方法
 app.use(cloud);
@@ -47,7 +48,8 @@ app.use(function(req, res, next) {
 });
 
 app.get('/', function(req, res) {
-  res.render('index', { currentTime: new Date() });
+  //res.render('index', { currentTime: new Date() });
+  res.sendFile('./dist/index.html');
 });
 
 // 可以将一类的路由单独保存在一个文件中
