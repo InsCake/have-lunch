@@ -1,5 +1,6 @@
 require('./../node_modules/purecss/build/base.css');
 require('./../node_modules/purecss/build/grids-min.css');
+require('./_assets/transitions.css');
 
 import Vue from 'vue'
 import VueRouter from 'vue-router'

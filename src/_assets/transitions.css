@@ -1,0 +1,89 @@
+/*- bounce -----------------------------------------------------------------*/
+.bounce-enter {
+    -webkit-animation: bounce-in .5s;
+}
+.bounce-leave {
+    -webkit-animation: bounce-out .2s;
+}
+@-webkit-keyframes bounce-in {
+    0% {
+        -webkit-transform: scale(0.5);
+        opacity: 0;
+    }
+    50% {
+        -webkit-transform: scale(1.05);
+    }
+    100% {
+        -webkit-transform: scale(1);
+        opacity: 1;
+    }
+}
+@-webkit-keyframes bounce-out {
+    0% {
+        -webkit-transform: scale(1);
+        opacity: 1;
+    }
+    100% {
+        -webkit-transform: scale(0.5);
+        opacity: 0;
+    }
+}
+/*- fade-----------------------------------------------------------------*/
+.fade-enter {
+    -webkit-animation: fade-in .3s;
+}
+.fade-leave {
+    -webkit-animation: fade-out .3s;
+}
+@-webkit-keyframes fade-in {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+@-webkit-keyframes fade-out {
+    0% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+}
+/*- slide-up -----------------------------------------------------------------*/
+.slide-up-transition {
+    transition: all .3s ease;
+    opacity: 1;
+}
+.slide-up-enter, .slide-up-leave {
+    transform: translateY(30px) scaleY(0.8);
+    opacity: 0;
+}
+/*- slide-down -----------------------------------------------------------------*/
+.slide-down-transition {
+    transition: all .3s ease;
+    opacity: 1;
+}
+.slide-down-enter, .slide-down-leave {
+    transform: translateY(-30px) scaleY(0.8);
+    opacity: 0;
+}
+/*- slide-left -----------------------------------------------------------------*/
+.slide-left-transition {
+    transition: all .3s ease;
+    opacity: 1;
+}
+.slide-left-enter, .slide-left-leave {
+    transform: translateX(-30px);
+    opacity: 0;
+}
+/*- slide-right -----------------------------------------------------------------*/
+.slide-right-transition {
+    transition: all .3s ease;
+    opacity: 1;
+}
+.slide-right-enter, .slide-right-leave {
+    transform: translateX(30px);
+    opacity: 0;
+}
