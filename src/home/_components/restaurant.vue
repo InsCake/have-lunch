@@ -8,7 +8,7 @@
             <p class="rest-address">{{ restaurant.address }}</p>
         </div>
         <div class="rest-aside pure-u-1-4">
-            <em class="rest-rank">12.9</em>
+            <em class="rest-rank">{{ rank.toFixed(1) }}</em>
             <span class="rest-like-btn" :class="'like-' + restaurant.like_level" @click="toggleLike()">
                 <i class="fa fa-heart-o"></i>
                 <i class="fa fa-heart"></i>
@@ -41,22 +41,42 @@
 
 <script>
     module.exports = {
-        props  : ['restaurant'],
-        methods: {
+        props   : ['restaurant'],
+        computed: {
+            rank: function () {
+                var self = this;
+                return Math.pow(self.restaurant.like_user_count, 1.5) + self.restaurant.like_total;
+            }
+        },
+        methods : {
             toggleLike: function () {
                 var self = this;
                 if (!AV.User.current()) {
                     self.$dispatch('show-login');
                 } else {
                     if (self.restaurant.like_level < 3) {
+                        if (self.restaurant.like_level == 0) {
+                            self.restaurant.like_user_count++;
+                        }
                         self.restaurant.like_level++;
+                        self.restaurant.like_total++;
                     } else {
                         self.restaurant.like_level = 0;
+                        self.restaurant.like_total -= 3;
+                        self.restaurant.like_user_count--;
                     }
-                    self.saveLike(self.restaurant.like_objectId, self.restaurant.like_level);
+
+                    if (!self.restaurant.like_objectId) {
+                        // 插入
+                        self.addLike(self.restaurant.objectId);
+                    } else {
+                        // 更新
+                        self.saveLike(self.restaurant.like_objectId, self.restaurant.like_level);
+                    }
                 }
             },
             saveLike  : function (like_objectId, like_level) {
+                var self = this;
                 var like = AV.Object.createWithoutData('User_likes_Restaurant', like_objectId);
                 like.set('like_level', like_level);
                 like.save().then(function () {
@@ -64,6 +84,18 @@
                     console.log('保存成功');
                 }, function (error) {
                     // 失败
+                    alert('失败');
+                });
+            },
+            addLike   : function (restaurant_objectId) {
+                var self = this;
+                var like = AV.Object.new('User_likes_Restaurant');
+                like.set('user', AV.User.current());
+                like.set('restaurant', AV.Object.createWithoutData('Restaurant', restaurant_objectId));
+                like.set('like_level', 1);
+                like.save().then(function (like) {
+                    self.restaurant.like_objectId = like.id;
+                }, function (err) {
                     alert('失败');
                 });
             }
